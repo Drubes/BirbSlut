@@ -12,11 +12,6 @@ import sys
 
 
 
-
-    #d.add_req(url,timestamp,timedif,str(injected_headers),str(injected_data),status,headers,content,size)
-
-
-
 #parsh the arguments.###########################################################
 desc = "BawlSec\'s BirbSlut: \n\n"\
        "A cheap & crappy replacement for Burpsuits intruder.\n"\
@@ -49,8 +44,6 @@ parser.add_argument('-c',
                     action='append',
                     help='post data   -c awsome=cookie -c uid=666')
 
-
-
 parser.add_argument('-d',
                     dest='post_data',
                     type=str,
@@ -62,7 +55,6 @@ parser.add_argument('-g',
                     type=str,
                     action='append',
                     help='post data   -g q=lemme -g page=smash')
-
 
 parser.add_argument('-H',
                     dest='headers',
@@ -76,7 +68,6 @@ parser.add_argument('-M',
                     choices = ["GET", "HEAD", "POST", "PUT", "DELETE","CONNECT", "OPTIONS", "TRACE"],
                     default = "GET",
                     help='Request methode.')
-                    #choices = ["GET", "POST"],
 
 parser.add_argument('-m',
                     dest='timeout',
@@ -96,12 +87,11 @@ parser.add_argument('-v',
                     default=1,
                     help='verbosety, 5=CRITICAL 4=ERROR 3=WARNING 2=INFO 1=DEBUG 0=NOTSET')
 
-
 parser.add_argument('-t',
                     dest='treads',
                     type=int,
                     default=10,
-                    help='amount of treads (not implemented yet)')
+                    help='amount of treads')
 
 args = parser.parse_args()
 
@@ -120,11 +110,8 @@ is_base64   = args.base
 logging.basicConfig(level=args.verbose*10)
 log = logging.getLogger(__name__)
 
-#log.logger.setLevel()
-
-
 ################################################################################
-# drops payload returns list..
+# drops payload returns dic..
 #
 def drop_payload(payload):
     injected_data=inject_payload(data_dic, payload)
@@ -148,7 +135,7 @@ def drop_payload(payload):
         r = requests.options(target, headers=injected_headers, cookies=injected_cookies, params=injected_params, data=injected_data, timeout=timeout)
     if methode == "TRACE":
         r = requests.trace(target, headers=injected_headers, cookies=injected_cookies, params=injected_params, data=injected_data, timeout=timeout)
-    timedif = timestamp-int(time.time())
+    timedif = int(time.time())-timestamp
     url = r.url
     status = int(r.status_code)
     log.debug(status)
@@ -201,7 +188,6 @@ else:
 ################################################################################
 #  IDK what im doing.
 
-
 #gekut en gepast.
 def worker(input, output):
     for func, args in iter(input.get, 'STOP'):
@@ -217,10 +203,8 @@ freeze_support()
 task_queue = Queue()
 done_queue = Queue()
 
-
 log.info("dropping "+str(len(payloads))+" payloads\n Using "+str(treads)+" treads")
 for payload in payloads:
-    #print payload[:-1]
     task_queue.put([drop_payload, payload[:-1]])
 
 # start the tread that will write to the db.
@@ -229,7 +213,6 @@ Process(target=dbm, args=(done_queue, len(payloads))).start()
 #start threads that will rape the server.
 for i in range(treads):
     Process(target=worker, args=(task_queue, done_queue)).start()
-    print "whoop whooop whooooppp"
 
 #end the rapey treads.
 for i in range(treads):
