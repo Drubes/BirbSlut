@@ -3,6 +3,7 @@
 import logging
 import copy
 log = logging.getLogger(__name__)
+
 ############################################
 # promts user for yes or no
 # returns 1 on yes
@@ -15,6 +16,7 @@ def yaynay():
         return 0
     if inp == "y":
         return 1
+
 
 #############################################
 # get payload list
@@ -29,6 +31,7 @@ def get_payloads(payloadfile):
         log.critical("can't open \""+payloadfile+"\"")
         quit()
     return payloads
+
 
 #############################################
 # decode the payloads.

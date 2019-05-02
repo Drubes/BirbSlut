@@ -23,14 +23,12 @@ class bsdb():
             log.critical("can't connect to database")
             return 0
 
-
     ####################################################
     # sets up the table(s)
     #
-    #==[req]===================================================================+
-    # url | time | timedif | requesthead | request | status  | headers | content | size
-    # text| int  |   int   |  text       | text    | int     | text    | text    | int
-
+    #==[req]============================================================================+
+    # url | time | timedif | requesthead | request | status  | headers | content | size |
+    # text| int  |   int   |  text       | text    | int     | text    | text    | int  |
 
     def init_db(self):
         with self.con:
@@ -45,22 +43,13 @@ class bsdb():
                 else:
                     quit()
 
-
     ####################################################
     # Add a request record.
-    def add_req(self, url, time, timedif, requesthead, request, status, headers, content, size):
-        # check arguments
-        try:
-            time+timedif+status+size+1
-            url+headers+request+content+requesthead+"lalala"
-        except:
-            log.error("Fucked up input..")
-            return
+    def add_req(self,x):
         with self.con:
             log.debug("adding request to req table.")
             req_ps = "INSERT INTO req (url, time, timedif, requesthead, request, status, headers, content,size) VALUES (?,?,?,?,?,?,?,?,?)"
-            self.cur.execute(req_ps, (url, time, timedif, requesthead, request, status, headers, content,size))
-
+            self.cur.execute(req_ps, (x['url'], x['timestamp'], x['timedif'], x['requesthead'], x['request'], x['status'], x['headers'], x['content'],x['size']))
 
     #####################################################
     # close the connection
