@@ -43,6 +43,14 @@ parser.add_argument('payloads',
                     type=str,
                     help='path to the payload list')
 
+parser.add_argument('-c',
+                    dest='cookies',
+                    type=str,
+                    action='append',
+                    help='post data   -c awsome=cookie -c uid=666')
+
+
+
 parser.add_argument('-d',
                     dest='post_data',
                     type=str,
@@ -106,6 +114,7 @@ treads      = args.treads
 dbname      = args.dbname
 post_data   = args.post_data
 get_data    = args.get_data
+cookies     = args.cookies
 is_base64   = args.base
 
 logging.basicConfig(level=args.verbose*10)
@@ -121,23 +130,24 @@ def drop_payload(payload):
     injected_data=inject_payload(data_dic, payload)
     injected_headers=inject_payload(header_dic, payload)
     injected_params=inject_payload(param_dic, payload)
+    injected_cookies=inject_payload(cookie_dic, payload)
     timestamp = int(time.time())
     if methode == "GET":
-        r = requests.get(target, headers=injected_headers, params=injected_params, data=injected_data, timeout=timeout)
+        r = requests.get(target, headers=injected_headers, cookies=injected_cookies, params=injected_params, data=injected_data, timeout=timeout)
     if methode == "HEAD":
-        r = requests.head(target, headers=injected_headers, params=injected_params, data=injected_data, timeout=timeout)
+        r = requests.head(target, headers=injected_headers, cookies=injected_cookies, params=injected_params, data=injected_data, timeout=timeout)
     if methode == "POST":
-        r = requests.post(target, headers=injected_headers, params=injected_params, data=injected_data, timeout=timeout)
+        r = requests.post(target, headers=injected_headers, cookies=injected_cookies, params=injected_params, data=injected_data, timeout=timeout)
     if methode == "PUT":
-        r = requests.put(target, headers=injected_headers, params=injected_params, data=injected_data, timeout=timeout)
+        r = requests.put(target, headers=injected_headers, cookies=injected_cookies, params=injected_params, data=injected_data, timeout=timeout)
     if methode == "DELETE":
-        r = requests.delete(target, headers=injected_headers, params=injected_params, data=injected_data, timeout=timeout)
+        r = requests.delete(target, headers=injected_headers, cookies=injected_cookies, params=injected_params, data=injected_data, timeout=timeout)
     if methode == "CONNECT":
-        r = requests.connect(target, headers=injected_headers, params=injected_params, data=injected_data, timeout=timeout)
+        r = requests.connect(target, headers=injected_headers, cookies=injected_cookies, params=injected_params, data=injected_data, timeout=timeout)
     if methode == "OPTIONS":
-        r = requests.options(target, headers=injected_headers, params=injected_params, data=injected_data, timeout=timeout)
+        r = requests.options(target, headers=injected_headers, cookies=injected_cookies, params=injected_params, data=injected_data, timeout=timeout)
     if methode == "TRACE":
-        r = requests.trace(target, headers=injected_headers, params=injected_params, data=injected_data, timeout=timeout)
+        r = requests.trace(target, headers=injected_headers, cookies=injected_cookies, params=injected_params, data=injected_data, timeout=timeout)
     timedif = timestamp-int(time.time())
     url = r.url
     status = int(r.status_code)
@@ -173,6 +183,13 @@ if post_data:
     data_dic = data_to_dic(post_data)
 else:
     data_dic = {}
+
+################################################################################
+#  prepare post_data.
+if cookies:
+    cookie_dic = data_to_dic(cookies)
+else:
+    cookie_dic = {}
 
 ################################################################################
 #  prepare get_data.
